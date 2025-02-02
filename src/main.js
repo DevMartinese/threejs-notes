@@ -33,7 +33,7 @@ const cube3 = new THREE.Mesh(
 cube3.position.x = 2
 group.add(cube3)
 
-/*const geometry = new THREE.BoxGeometry(1, 1, 1)
+const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
@@ -47,7 +47,7 @@ mesh.rotation.x = Math.PI * 0.25
 mesh.rotation.y = Math.PI * 0.25
 
 // Position
-mesh.position.set(0.7, - 0.6, 1)*/
+mesh.position.set(0.7, - 0.6, 1)
 
 // Axes Helper
 const axesHelper = new THREE.AxesHelper()
