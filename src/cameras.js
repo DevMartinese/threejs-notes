@@ -21,7 +21,16 @@ const sizes = {
 }
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth)
+//const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth, 0.1, 100)
+const aspectRatio = sizes.width / sizes.heigth
+const camera = new THREE.OrthographicCamera(
+  - 1 * aspectRatio,
+  1 * aspectRatio,
+  1,
+  -1,
+  0.1,
+  100
+)
 camera.position.x = 2
 camera.position.y = 2
 camera.position.z = 2
@@ -42,7 +51,7 @@ const tick = () => {
 
   const elapsedTime = clock.getElapsedTime()
 
-  mesh.rotation.y = Math.sin(elapsedTime)
+  mesh.rotation.y = elapsedTime
 
   renderer.render(scene, camera)
 
