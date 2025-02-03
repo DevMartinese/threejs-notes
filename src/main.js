@@ -27,6 +27,7 @@ scene.add(camera)
 const renderer = new THREE.WebGLRenderer({
   canvas
 })
+
 renderer.setSize(sizes.width, sizes.heigth)
 
 renderer.render(scene, camera)
