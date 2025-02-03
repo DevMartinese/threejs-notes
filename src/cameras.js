@@ -1,5 +1,21 @@
 import * as THREE from 'three'
-import gsap from 'gsap'
+
+// Cursor
+const cursor = {
+  x: 0,
+  y: 0
+}
+
+// Sizes
+const sizes = {
+  width: 800,
+  heigth: 600
+}
+
+window.addEventListener('mousemove', (event) => {
+  cursor.x = event.clientX / sizes.width - 0.5
+  cursor.y = - (event.clientY / sizes.heigth - 0.5)
+})
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -14,15 +30,9 @@ const mesh = new THREE.Mesh(
 )
 scene.add(mesh)
 
-// Sizes
-const sizes = {
-  width: 800,
-  heigth: 600
-}
-
 // Camera
-//const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth, 0.1, 100)
-const aspectRatio = sizes.width / sizes.heigth
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth, 0.1, 100)
+/*const aspectRatio = sizes.width / sizes.heigth
 const camera = new THREE.OrthographicCamera(
   - 1 * aspectRatio,
   1 * aspectRatio,
@@ -32,8 +42,8 @@ const camera = new THREE.OrthographicCamera(
   100
 )
 camera.position.x = 2
-camera.position.y = 2
-camera.position.z = 2
+camera.position.y = 2*/
+camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
 
@@ -51,7 +61,12 @@ const tick = () => {
 
   const elapsedTime = clock.getElapsedTime()
 
-  mesh.rotation.y = elapsedTime
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
+  camera.position.y = cursor.y * 3
+  camera.lookAt(mesh.position)
+
+  //mesh.rotation.y = elapsedTime
 
   renderer.render(scene, camera)
 
