@@ -1,10 +1,24 @@
 import './style.css'
 import * as THREE from 'three'
+import gsap from 'gsap'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import GUI from 'lil-gui'
 
 // Debug UI
-const gui = new GUI()
+const gui = new GUI({
+  width: 300,
+  title: 'Nice Debug UI',
+  closeFolders: false
+})
+//gui.close()
+//gui.hide()
+
+window.addEventListener('keydown', (event) => {
+  if(event.key == 'h')
+    gui.show(gui._hidden)
+})
+
+const debugObject = {}
 
 // Sizes
 const sizes = {
@@ -54,26 +68,54 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Object
-const geometry = new THREE.BoxGeometry(1, 1, 1, 5, 5, 5)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+debugObject.color = '#3a6ea6'
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const material = new THREE.MeshBasicMaterial({ color: debugObject.color, wireframe: false })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-gui
+const cubeTweaks = gui.addFolder('Awesome Cube!')
+//cubeTweaks.close()
+
+cubeTweaks
   .add(mesh.position, 'y')
   .min('-3')
   .max('3')
   .step('0.01')
   .name('elevation')
 
-gui
+cubeTweaks
   .add(mesh, 'visible')
 
-gui
+cubeTweaks
   .add(material, 'wireframe')
 
-gui
-  .addColor(material, 'color')
+cubeTweaks
+  .addColor(debugObject, 'color')
+  .onChange(() => {
+    material.color.set(debugObject.color)
+  })
+
+debugObject.spin = () => {
+  gsap
+    .to(mesh.rotation, { y: mesh.rotation.y + Math.PI * 2 })
+}
+cubeTweaks
+  .add(debugObject, 'spin')
+
+debugObject.subdivision = 2
+cubeTweaks
+  .add(debugObject, 'subdivision')
+  .min(1)
+  .max(20)
+  .step(1)
+  .onFinishChange(() => {
+    mesh.geometry.dispose()
+    mesh.geometry = new THREE.BoxGeometry(
+      1, 1, 1,
+      debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
+    )
+  })
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth, 0.1, 100)
