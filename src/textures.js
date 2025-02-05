@@ -5,7 +5,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // Textures
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
-const texture = textureLoader.load('../static/textures/door/color.jpg')
+const colorTexture = textureLoader.load('../static/textures/door/color.jpg')
+colorTexture.colorSpace = THREE.SRGBColorSpace
+
+colorTexture.repeat.x = 2
+colorTexture.repeat.y = 3
+colorTexture.wrapS = THREE.MirroredRepeatWrapping
+colorTexture.wrapT = THREE.MirroredRepeatWrapping
 
 /**
  * Base
@@ -20,7 +26,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ map: texture })
+const material = new THREE.MeshBasicMaterial({ map: colorTexture })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
