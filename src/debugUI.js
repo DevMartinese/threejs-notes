@@ -119,6 +119,8 @@ cubeTweaks
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.heigth, 0.1, 100)
+camera.position.x = 1
+camera.position.y = 1
 camera.position.z = 3
 camera.lookAt(mesh.position)
 scene.add(camera)
