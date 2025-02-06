@@ -5,13 +5,30 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // Textures
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('../static/textures/door/color.jpg')
+const colorTexture = textureLoader.load('../static/textures/minecraft.png')
 colorTexture.colorSpace = THREE.SRGBColorSpace
+const alphaTexture = textureLoader.load('../static/textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('../static/textures/door/height.jpg')
+const normalTexture = textureLoader.load('../static/textures/door/normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('../static/textures/door/ambientOcclusion.jpg')
+const metalnessTexture = textureLoader.load('../static/textures/door/metalness.jpg')
+const roughnessTexture = textureLoader.load('../static/textures/door/roughness.jpg')
 
-colorTexture.repeat.x = 2
-colorTexture.repeat.y = 3
-colorTexture.wrapS = THREE.MirroredRepeatWrapping
-colorTexture.wrapT = THREE.MirroredRepeatWrapping
+//colorTexture.repeat.x = 2
+//colorTexture.repeat.y = 3
+//colorTexture.wrapS = THREE.MirroredRepeatWrapping
+//colorTexture.wrapT = THREE.MirroredRepeatWrapping
+
+//colorTexture.offset.x = 0.5
+//colorTexture.offset.y = 0.5
+
+//colorTexture.rotation = Math.PI / 4
+//colorTexture.center.x = 0.5
+//colorTexture.center.y = 0.5
+
+colorTexture.generateMipmaps = false
+colorTexture.minFilter = THREE.NearestFilter
+colorTexture.magFilter = THREE.NearestFilter
 
 /**
  * Base
