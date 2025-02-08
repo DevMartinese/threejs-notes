@@ -1,6 +1,13 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import GUI from 'lil-gui'
+
+console.log(RGBELoader)
+
+// Debug UI
+const gui = new GUI()
 
 /**
  * Base
@@ -22,7 +29,7 @@ const doorNormalTexture = textureLoader.load('../static/textures/door/normal.jpg
 const doorMetalnessTexture = textureLoader.load('../static/textures/door/metalness.jpg')
 const doorRoughnessTexture = textureLoader.load('../static/textures/door/roughness.jpg')
 const matcapTexture = textureLoader.load('../static/textures/matcaps/1.png')
-const gradientTexture = textureLoader.load('../static/textures/gradients/3.jpg')
+const gradientTexture = textureLoader.load('../static/textures/gradients/5.jpg')
 
 doorColorTexture.colorSpace = THREE.SRGBColorSpace
 matcapTexture.colorSpace = THREE.SRGBColorSpace
@@ -30,13 +37,51 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 /**
  * Object
  */
-const material = new THREE.MeshBasicMaterial
-material.map = doorColorTexture
+//const material = new THREE.MeshBasicMaterial
+//material.map = doorColorTexture
 //material.color = new THREE.Color(0xff0000)
 //material.wireframe = true
 //material.opacity = 0.5
 //material.alphaMap = doorAlphaTexture
-material.side = THREE.DoubleSide
+//material.side = THREE.DoubleSide
+
+//const material = new THREE.MeshNormalMaterial()
+//material.flatShading = true
+
+//const material = new THREE.MeshMatcapMaterial()
+//material.matcap = matcapTexture
+
+//const material = new THREE.MeshDepthMaterial()
+
+//const material = new THREE.MeshLambertMaterial()
+
+//const material = new THREE.MeshPhongMaterial()
+//material.shininess = 100
+//material.specular = new THREE.Color(0x1188ff)
+
+//const material = new THREE.MeshToonMaterial()
+//gradientTexture.minFilter = THREE.NearestFilter
+//gradientTexture.magFilter = THREE.NearestFilter
+//gradientTexture.generateMipmaps = false
+//material.gradientMap = gradientTexture
+
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.7
+material.roughness = 0.2
+
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+
+/**
+ * Enviroment Map
+ */
+const rgbeLoader = new RGBELoader()
+rgbeLoader.load('../static/textures/environmentMap/2k.hdr', (environmentMap) => {
+  environmentMap.mapping = THREE.EquirectangularReflectionMapping
+
+  scene.background = environmentMap
+  scene.environment = environmentMap
+})
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
@@ -56,6 +101,18 @@ const torus = new THREE.Mesh(
 torus.position.x = 1.5
 
 scene.add(sphere, plane, torus)
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+scene.add(ambientLight)
+
+const pointLight = new THREE.PointLight(0xffffff, 30)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+scene.add(pointLight)
 
 /**
  * Sizes
