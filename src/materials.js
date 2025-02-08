@@ -30,7 +30,10 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace
 /**
  * Object
  */
-const material = new THREE.MeshBasicMaterial({ map: doorColorTexture })
+const material = new THREE.MeshBasicMaterial
+material.map = doorColorTexture
+material.color = new THREE.Color(0xff0000)
+material.wireframe = true
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(0.5, 16, 16),
