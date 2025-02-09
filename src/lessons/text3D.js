@@ -1,11 +1,8 @@
 import '../style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
-import GUI from 'lil-gui'
 import { FontLoader, TextGeometry } from 'three/examples/jsm/Addons.js'
-console.log("TextGeometry",TextGeometry)
-console.log('TextBufferGeometry')
+import GUI from 'lil-gui'
 
 /**
  * Base
