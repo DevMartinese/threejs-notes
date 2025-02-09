@@ -3,7 +3,9 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import GUI from 'lil-gui'
-console.log(typefaceFont)
+import { FontLoader, TextGeometry } from 'three/examples/jsm/Addons.js'
+console.log("TextGeometry",TextGeometry)
+console.log('TextBufferGeometry')
 
 /**
  * Base
@@ -23,16 +25,32 @@ const scene = new THREE.Scene()
 const textureLoader = new THREE.TextureLoader()
 
 // Fonts
+const fontLoader = new FontLoader()
 
-/**
- * Object
- */
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial()
+fontLoader.load(
+  '../static/fonts/helvetiker_regular.typeface.json',
+  (font) => {
+    console.log('font loaded', font)
+    const textGeometry = new TextGeometry(
+      'Hello Three.js',
+      {
+        font,
+        size: 0.5,
+        depth: 0.2,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.02,
+        bevelOffset: 0,
+        bevelSegments: 5
+      }
+    )
+
+    const textMaterial = new THREE.MeshBasicMaterial()
+    const text = new THREE.Mesh(textGeometry, textMaterial)
+    scene.add(text)
+  }
 )
-
-scene.add(cube)
 
 /**
  * Sizes
